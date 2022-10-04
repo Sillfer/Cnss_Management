@@ -10,6 +10,7 @@ public class LoginPage {
     public void adminLogin() throws SQLException {
         AdminPage adminPage = new AdminPage();
         adminPage.loginAdmin();
+
     }
     public void agentLogin()  throws SQLException {
         AgentPage agentPage = new AgentPage();
