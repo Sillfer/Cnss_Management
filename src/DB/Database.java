@@ -12,7 +12,7 @@ public class Database {
 
 
         try {
-            connection = (DriverManager.getConnection("jdbc:mysql://localhost:3306/cnss_jdbc", "root", "redaDaalabi2"));
+            connection = (DriverManager.getConnection("jdbc:mysql://localhost:3306/cnss_jdbc", "root", "?!LoneCrow?!"));
             statement = connection.createStatement();
 
 

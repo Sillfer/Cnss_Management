@@ -13,12 +13,12 @@ public class PatientPage {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter your Matrix: ");
             String matricule = scanner.nextLine();
-            resultSet = statement.executeQuery("SELECT * FROM patient WHERE matricule = '" + matricule + "'");
+            resultSet = statement.executeQuery("SELECT matricule FROM patient WHERE matricule = '" + matricule + "'");
             if (resultSet.next()) {
                 if (resultSet.getString("matricule").equals(matricule)) {
                     System.out.println("Welcome " + resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
                 } else {
-                    System.out.println("Invalid email or password");
+                    System.out.println("Matricule incorrect");
                 }
             }
         }
