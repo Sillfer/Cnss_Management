@@ -17,20 +17,7 @@ public class AdminPage {
         resultSet = statement.executeQuery("SELECT email,password FROM admin WHERE email = '" + email + "'");
         if (resultSet.next()) {
             if (resultSet.getString("password").equals(password)) {
-//                System.out.println("------ Welcome " + resultSet.getString("first_name") + " " + resultSet.getString("last_name --------\n"));
-                    int choice = -1;
-                    do {
-                        System.out.println("---------- Admin Menu ----------");
-                        System.out.println("1: Add a new agent");
-                        System.out.println("2: Quit");
-                        choice = Main.ReadInt("Please choose an option : ");
-                        switch (choice) {
-                            case 1 -> insertAgent();
-                        }
-                        if (choice<1 || choice>2) {
-                            System.out.println("Invalid choice");
-                        }
-                    } while (choice != 2);
+                    adminMenu();
             }else {
                 System.out.println("invalid password");
             }
@@ -38,7 +25,7 @@ public class AdminPage {
             System.out.println("invalid email");
         }
     }
-    public Boolean insertAgent(){
+    public static Boolean insertAgent(){
         boolean status = true;
         try{
         Database.connection();
@@ -63,16 +50,31 @@ public class AdminPage {
         connection.commit();
         ps.close();
         connection.close();
-        if (status){
+        if (!status){
             System.out.println("Agent added successfully");
         }else {
             System.out.println("Agent not added");
         }
-        return status;
     }catch (SQLException e){
         e.printStackTrace();
     }
         return status;
+    }
+
+    public static void adminMenu(){
+        int choice = -1;
+        do {
+            System.out.println("---------- Admin Menu ----------");
+            System.out.println("1: Add a new agent");
+            System.out.println("2: Quit");
+            choice = Main.ReadInt("Please choose an option : ");
+            switch (choice) {
+                case 1 -> insertAgent();
+            }
+            if (choice<1 || choice>2) {
+                System.out.println("Invalid choice");
+            }
+        } while (choice != 2);
     }
 }
 
