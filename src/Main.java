@@ -10,11 +10,14 @@ import java.util.Timer;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
+        menu();
+    }
+
+    public static void menu() throws SQLException {
         LoginPage loginAdmin = new LoginPage();
         LoginPage loginAgent = new LoginPage();
         LoginPage loginPatient = new LoginPage();
         Timer timer = new Timer(true);
-
         int choice = -1;
         do {
             System.out.println("---------- Main Menu ----------");
@@ -27,6 +30,7 @@ public class Main {
                 case 1 -> loginAdmin.adminLogin();
                 case 2 -> loginAgent.agentLogin();
                 case 3 -> loginPatient.patientLogin();
+                case 4 -> System.out.println("A bientot !");
             }
         }while (choice!=4);
         timer.cancel();
