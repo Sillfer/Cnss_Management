@@ -37,11 +37,6 @@ public class AgentPage {
         while (true);
     }
 
-    //nouveau dossier
-    public static void newDossier() {
-
-    }
-
     //function qui permet de setter toutes les attributes
     public void NewAgent(int id_agent, String first_name, String last_name, String email, String password) {
         this.id_agent = id_agent;
@@ -111,5 +106,29 @@ public class AgentPage {
         } else {
             System.out.println("Invalid email");
         }
+        while(true);
+    }
+
+    //nouveau dossier
+    public static void newDossier() throws SQLException {
+        int chose;
+        do {
+            System.out.println("<1> - Ajouter un ordannance");
+            System.out.println("<2> - Ajouter un visite");
+            System.out.println("<3> - Ajouter un medicamment");
+            System.out.println("<4> - Valider le dossier");
+            System.out.println("<5> - retour au menu principal");
+            System.out.print("Choisir svp : ");
+            chose = scan.nextInt();
+            switch (chose) {
+                case 1 -> Ordonnance.AddOrdonnance();
+                case 2 -> Visite.AddVisite();
+                case 3 -> Medicamment.AddMedicamment();
+                case 4 -> DossierPage.ValidationDossier();
+                case 5 -> menuagent();
+                default -> System.out.println("plz choisir une autre fois");
+            }
+        }
+        while (true);
     }
 }
