@@ -1,4 +1,6 @@
 import DB.Database;
+import DossierPackage.Dossier;
+import DossierPackage.Visite;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -35,12 +37,6 @@ public class AgentPage {
             }
         }
         while (true);
-    }
-
-    //nouveau dossier
-    public static void newDossier() {
-
-
     }
 
     //function qui permet de setter toutes les attributes
@@ -112,5 +108,26 @@ public class AgentPage {
         } else {
             System.out.println("Invalid email");
         }
+        while(true);
+    }
+
+    //nouveau dossier
+    public static void newDossier() throws SQLException {
+        int chose;
+        do {
+
+            System.out.println("<1> - Ajouter un visite");
+            System.out.println("<2> - Ajouter un medicamment");
+            System.out.println("<3> - Valider le dossier");
+            System.out.println("<4> - retour au menu principal");
+            System.out.print("Choisir svp : ");
+            chose = scan.nextInt();
+            switch (chose) {
+//                case 1 ->
+                case 5 -> menuagent();
+                default -> System.out.println("plz choisir une autre fois");
+            }
+        }
+        while (true);
     }
 }

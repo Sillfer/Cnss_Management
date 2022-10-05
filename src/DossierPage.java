@@ -28,7 +28,9 @@ public class DossierPage {
         }
 
         return dossier.CreateDossier(medicamentsList,visitesList);
+
     }
+
 }
 
 

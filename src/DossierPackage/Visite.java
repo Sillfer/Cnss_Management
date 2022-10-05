@@ -10,7 +10,6 @@ public class Visite {
     private String medecinType;
     private String code_dossier;
 
-
     ////function qui permet de setter toutes les attributes
     public Visite (String visit_id, String medecinType, String code_dossier) {
         this.visit_id = visit_id;
