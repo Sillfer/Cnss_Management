@@ -5,6 +5,8 @@
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.Timer;
+
+import static Helpers.GlobalHelpers.ReadInt;
 //import java.util.Scanner;
 
 
@@ -35,30 +37,6 @@ public class Main {
         }while (choice!=4);
         timer.cancel();
     }
-    static int ReadInt(String Message) {
-        boolean error=false;
-        do {
-            error=false;
-            try {
-                System.out.println(Message);
-                Scanner scanner = new Scanner(System.in);
-                return scanner.nextInt();
-            } catch (Exception ex) {
-                System.out.println("Value entered is not valid.");
-                error=true;
-            }
-        }while (error);
-        return -1;
-    }
 
-    public static String randomAlphaNumeric(int i) {
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
-        StringBuilder sb = new StringBuilder(i);
-        for (int j = 0; j < i; j++) {
-            int index = (int) (AlphaNumericString.length() * Math.random());
-            sb.append(AlphaNumericString.charAt(index));
-        }
-        return sb.toString();
-    }
 }
 

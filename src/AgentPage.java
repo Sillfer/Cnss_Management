@@ -40,6 +40,7 @@ public class AgentPage {
     //nouveau dossier
     public static void newDossier() {
 
+
     }
 
     //function qui permet de setter toutes les attributes

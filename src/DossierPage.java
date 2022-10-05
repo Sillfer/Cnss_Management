@@ -1,50 +1,34 @@
-import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+
+import DossierPackage.Dossier;
+import DossierPackage.Medicamment;
+import DossierPackage.Visite;
+import Helpers.GlobalHelpers;
+
+import static DB.Database.connection;
 
 public class DossierPage {
+
+    ArrayList<String> medicaments = new ArrayList<String>();
+    ArrayList<String> visites = new ArrayList<String>();
     //Declaration des attributes
-    private int serie;
-    private int totale;
-    private String status;
-    private String matricule;
 
-    //function qui permet de setter toutes les attributes
-    public void newDossier(int serie, int totale, String status, String matricule) {
-        this.serie = serie;
-        this.totale = totale;
-        this.status = status;
-        this.matricule = matricule;
-    }
+    public Boolean AddDossier(String matricule, ArrayList<String> medicaments,ArrayList<String> visites){
+        ArrayList<Medicamment> medicamentsList = new ArrayList<>();
+        ArrayList<Visite> visitesList = new ArrayList<>();
+        Dossier dossier = new Dossier(GlobalHelpers.genereteMatricule(),"En Attente","En Attente",matricule);
+        for (String Visite:visites) {
+            Visite visite = new Visite(GlobalHelpers.genereteMatricule(),Visite,Dossier.getSerie());
+            visitesList.add(visite);
+        }
+        for (String Medicamment:medicaments) {
+            Medicamment medicamment = new Medicamment(Medicamment,Dossier.getSerie());
+            medicamentsList.add(medicamment);
+        }
 
-    //Getters
-    public int getSerie() {
-        return serie;
-    }
-    public int getTotale() {
-        return totale;
-    }
-    public String getStatus() {
-        return status;
-    }
-    public String getMatricule() {
-        return matricule;
-    }
-
-    //Setters
-    public void setSerie(int serie) {
-        this.serie = serie;
-    }
-    public void setTotale(int totale) {
-        this.totale = totale;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
-    }
-
-    public static void AddDossier() {
-        AgentPage agentPage = new AgentPage();
-        agentPage.newDossier();
+        return dossier.CreateDossier(medicamentsList,visitesList);
     }
 }
+
+

@@ -10,7 +10,6 @@ public class Database {
 
     public static void connection() {
 
-
         try {
             connection = (DriverManager.getConnection("jdbc:mysql://localhost:3306/cnss_jdbc", "root", "?!LoneCrow?!"));
             statement = connection.createStatement();
@@ -19,8 +18,6 @@ public class Database {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }
 

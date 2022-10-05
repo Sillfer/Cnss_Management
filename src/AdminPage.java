@@ -3,8 +3,9 @@ import DB.Database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
-
 import static DB.Database.*;
+import static Helpers.GlobalHelpers.ReadInt;
+import static Helpers.GlobalHelpers.randomAlphaNumeric;
 
 public class AdminPage {
     public static Boolean insertAgent() {
@@ -23,7 +24,7 @@ public class AdminPage {
 
             PreparedStatement ps = connection.prepareStatement("INSERT INTO agent (matricule,first_name,last_name,email,password) VALUES (?,?,?,?,?)");
             connection.setAutoCommit(false);
-            ps.setString(1, "A" + Main.randomAlphaNumeric(10));
+            ps.setString(1, "A" + randomAlphaNumeric(10));
             ps.setString(2, first_name);
             ps.setString(3, last_name);
             ps.setString(4, email);
@@ -42,14 +43,13 @@ public class AdminPage {
         }
         return status;
     }
-
     public static void adminMenu() {
         int choice = -1;
         do {
             System.out.println("---------- Admin Menu ----------");
             System.out.println("1: Add a new agent");
             System.out.println("2: Quit");
-            choice = Main.ReadInt("Please choose an option : ");
+            choice = ReadInt("Please choose an option : ");
             switch (choice) {
                 case 1 -> insertAgent();
             }

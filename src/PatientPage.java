@@ -17,9 +17,9 @@ public class PatientPage {
             if (resultSet.next()) {
                 if (resultSet.getString("matricule").equals(matricule)) {
                     System.out.println("Welcome " + resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
-                } else {
-                    System.out.println("Matricule incorrect");
                 }
+            }else {
+                System.out.println("Matricule incorrect");
             }
         }
 
