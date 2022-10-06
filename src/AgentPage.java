@@ -10,6 +10,7 @@ import java.util.Scanner;
 import static DB.Database.resultSet;
 import static DB.Database.statement;
 import static Helpers.GlobalHelpers.Print;
+import static Helpers.GlobalHelpers.genereteMatricule;
 
 public class AgentPage {
     private final static Scanner scan = new Scanner(System.in);
@@ -125,16 +126,23 @@ public class AgentPage {
 
     //function qui permet login de l'agent
     public void loginAgent() throws SQLException {
+        String message = "Your matricule is : "+genereteMatricule();
+        String subject = "Verification code";
         Database.connection();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your email: ");
         String email = scanner.nextLine();
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
-        resultSet = statement.executeQuery("SELECT email,password FROM agent WHERE email = '" + email + "'");
+        resultSet = statement.executeQuery(" SELECT email,password FROM agent WHERE email = '" + email + "'");
         if (resultSet.next()) {
             if (resultSet.getString("password").equals(password)) {
-                menuagent();
+                System.out.println("Check your email for the code You have 5 minutes to enter the code");
+                if (Email.sendEmail(message,subject,"daalabir@gmail.com")) {
+                    System.out.println("Login successful");
+                    //function qui permet de envoyer un email de verification a l'agent
+                    menuagent();
+                }
             } else {
                 System.out.println("Invalid password");
             }

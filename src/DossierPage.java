@@ -6,6 +6,7 @@ import static Helpers.GlobalHelpers.*;
 import Helpers.ConsoleBackground;
 import Helpers.ConsoleForeground;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -90,8 +91,15 @@ public class DossierPage {
             }
             }
         }
-    }
-
 // Language: java
 // Path: src\DossierPackage\Dossier.java
 
+    public static void AddDossier() throws SQLException {
+        AgentPage agentPage = new AgentPage();
+        agentPage.newDossier();
+    }
+
+    public static void ValidationDossier(){
+
+    }
+}
