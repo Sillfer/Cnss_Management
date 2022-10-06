@@ -131,7 +131,7 @@ public class AgentPage {
                             continue;
                         }else{
                             Print("Dossier added successfully", ConsoleForeground.GREEN);
-                            continue;
+                            break;
                         }
                     }
                     default -> {

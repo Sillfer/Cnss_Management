@@ -1,71 +1,73 @@
 package DossierPackage;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import static DB.Database.connection;
+import static Helpers.GlobalHelpers.Print;
 
 public class Dossier {
-    private static String serie;
-    private int totale;
+    private static String series;
+    private String statut;
     private String response;
-    private String status;
     private String matricule;
-    public Dossier(String serie, String status, String response, String matricule) {
-        this.serie = serie;
-//        this.totale = totale;
-        this.status = status;
+
+    public Dossier(String series, String statut, String response, String matricule) {
+        Dossier.series = series;
+        this.statut = statut;
         this.response = response;
         this.matricule = matricule;
     }
 
     //Getters
     public static String getSerie() {
-        return serie;
-    }
-    public int getTotale() {
-        return totale;
-    }
-    public String getResponse() {
-        return response;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    public String getMatricule() {
-        return matricule;
+        return series;
     }
 
     //Setters
     public void setSerie(String serie) {
-        this.serie = serie;
+        series = serie;
     }
-    public void setTotale(int totale) {
-        this.totale = totale;
+
+    public String getResponse() {
+        return response;
     }
-    public void setStatus(String status) {
-        this.status = status;
-    }
+
     public void setResponse(String response) {
         this.response = response;
     }
+
+    public String getStatus() {
+        return statut;
+    }
+
+    public void setStatus(String status) {
+        this.statut = status;
+    }
+
+    public String getMatricule() {
+        return matricule;
+    }
+
     public void setMatricule(String matricule) {
         this.matricule = matricule;
     }
-    public Boolean CreateDossier(ArrayList<Medicamment> medicaments, ArrayList<Visite> visites)
-    {
+
+    public Boolean CreateDossier(ArrayList<Medicamment> medicaments, ArrayList<Visite> visites) {
         boolean result = true;
-        try{
-            if(!visites.isEmpty()){
+        try {
+            if (!visites.isEmpty()) {
                 connection();
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO dossier (serie, totale, status, matricule) VALUES (?,?,?,?)");
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO dossier (series, statut, response, matricule,total) VALUES (?,?,?,?,?)");
                 connection.setAutoCommit(false);
-                ps.setString(1, serie);
-                ps.setInt(2, totale);
-                ps.setString(3, status);
-                ps.setString(4, matricule);
+                ps.setString(1, series);
+                ps.setString(2, this.statut);
+                ps.setString(3, this.response);
+                ps.setString(4, this.matricule);
+                ps.setString(5, null);
                 result = ps.execute();
+//                Print("I am here");
                 connection.commit();
                 ps.close();
                 connection.close();
@@ -79,14 +81,49 @@ public class Dossier {
                     }
                 }
 
-            }else {
+            } else {
                 System.out.println("There has to be at least one visit");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             result = false;
         }
 
         return result;
     }
+
+    public void  getAllDossier(String statut) {
+        ArrayList dossiers = new ArrayList<>();
+        try {
+            connection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE statut = ?");
+            connection.setAutoCommit(false);
+            ps.setString(1, statut);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Print(series);
+                dossiers.add(new DossierStatut(rs.getString("series"), rs.getString("statut"), rs.getString("response"), rs.getString("matricule")));
+            }
+            Print(String.valueOf(dossiers));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateDossier(String response, String total, String series) {
+        try {
+            connection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE dossier SET response = ? , total = ?, series = ?  WHERE series = ?");
+            connection.setAutoCommit(false);
+            ps.setString(1, response);
+            ps.setString(2, total);
+            ps.setString(3, series);
+            ps.executeUpdate();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

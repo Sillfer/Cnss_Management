@@ -3,6 +3,7 @@ package DossierPackage;
 import java.sql.PreparedStatement;
 
 import static DB.Database.connection;
+import static Helpers.GlobalHelpers.Print;
 
 public class Visite {
     //Declaration des attributes
@@ -52,6 +53,7 @@ public class Visite {
             ps.setString(3, code_dossier);
             result = ps.execute();
             connection.commit();
+            Print("I am in visite");
             ps.close();
             connection.close();
         }

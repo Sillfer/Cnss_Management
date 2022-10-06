@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class DossierPage {
 
     ArrayList<String> medicaments = new ArrayList<String>();
-    static ArrayList<String> visites = new ArrayList<String>();
+    ArrayList<String> visites = new ArrayList<String>();
     //Declaration des attributes
 
     public Boolean AddDossier(String matricule, ArrayList<String> medicaments,ArrayList<String> visites){
@@ -19,21 +19,19 @@ public class DossierPage {
         ArrayList<Visite> visitesList = new ArrayList<>();
         Dossier dossier = new Dossier(genereteMatricule(),"En Attente","En Attente",matricule);
         for (String Visite:visites) {
-            Visite visite = new Visite(genereteMatricule(),Visite,Dossier.getSerie());
+            Visite visite = new Visite(genereteMatricule(),Visite,dossier.getSerie());
             visitesList.add(visite);
         }
         for (String Medicamment:medicaments) {
-            Medicamment medicamment = new Medicamment(Medicamment,Dossier.getSerie());
+            Medicamment medicamment = new Medicamment(Medicamment,dossier.getSerie());
             medicamentsList.add(medicamment);
         }
-
-        return dossier.CreateDossier(medicamentsList,visitesList);
-
+        Boolean DossierCreated = dossier.CreateDossier(medicamentsList,visitesList);
+        return DossierCreated;
     }
-
     public int addDossier(){
         while(true){
-            Print("Veuillez saisir le matricule du patient", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
+            Print("Veuillez valider les données du patient", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
             String message = "1: Ajouter une visite /---/ "+this.visites.size();
             if(visites.size() == 0){
                 Print(message,ConsoleForeground.GREEN,ConsoleBackground.BLACK);
@@ -52,24 +50,28 @@ public class DossierPage {
             int choixDossier = choice.nextInt();
             switch (choixDossier){
                 case 1:
-                    Print("Veuillez saisir le type de la visite"+visites.size(), ConsoleForeground.GREEN, ConsoleBackground.BLACK);
+                    Print("Veuillez saisir le type de la visite", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
                     Scanner visite = new Scanner(System.in);
                     visites.add(visite.nextLine());
+//                    Print(String.valueOf(visites));
                     continue;
                 case 2:
-                    Print("Veuillez saisir le code du medicamment"+medicaments.size(), ConsoleForeground.GREEN, ConsoleBackground.BLACK);
+                    Print("Veuillez saisir le code du medicamment", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
                     Scanner medicamment = new Scanner(System.in);
                     medicaments.add(medicamment.nextLine());
+//                    Print(String.valueOf(medicaments));
                     continue;
                 case 3:
                     Print("Veuillez saisir le matricule du patient", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
-                    Scanner matricule = new Scanner(System.in);
-                    String matriculePatient = matricule.nextLine();
+                    Scanner scanner = new Scanner(System.in);
+                    String matriculePatient = scanner.nextLine();
                     DossierPage dossierPage = new DossierPage();
                     Boolean result = dossierPage.AddDossier(matriculePatient,medicaments,visites);
                     if (!result){
                         Print("Dossier created successfully", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
-
+                        Print(matriculePatient);
+                        Print(medicaments.toString());
+                        Print(String.valueOf(visites));
                     }else{
                         Print("Dossier creation failed", ConsoleForeground.RED, ConsoleBackground.BLACK);
                     }

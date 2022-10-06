@@ -3,13 +3,12 @@ package DossierPackage;
 import java.sql.PreparedStatement;
 
 import static DB.Database.connection;
+import static Helpers.GlobalHelpers.Print;
 
 public class Medicamment {
     //Declaration des attributes
     private String medicament_id;
     private String code_dossier;
-    private String name;
-    private Double taux;
 
     ////function qui permet de setter toutes les attributes
     public Medicamment(String medicament_id, String code_dossier) {
@@ -36,32 +35,17 @@ public class Medicamment {
 
     //Setters
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getTaux() {
-        return taux;
-    }
-
-    public void setTaux(Double taux) {
-        this.taux = taux;
-    }
-
     public Boolean AddMedicamment() {
         boolean result = true;
         try {
             connection();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO scan_medicamment (medicament_id, code_dossier) VALUES (?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO scan_medicament (medicament_id, code_dossier) VALUES (?,?)");
             connection.setAutoCommit(false);
-            ps.setString(1, medicament_id);
-            ps.setString(2, code_dossier);
+            ps.setString(1, this.medicament_id);
+            ps.setString(2, this.code_dossier);
             result = ps.execute();
             connection.commit();
+            Print("I am in medicament");
             ps.close();
             connection.close();
         } catch (Exception e) {
