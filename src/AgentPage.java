@@ -40,6 +40,7 @@ public class AgentPage {
         }
         while (true);
     }
+
     //function qui permet de setter toutes les attributes
     public void NewAgent(int id_agent, String first_name, String last_name, String email, String password) {
         this.id_agent = id_agent;
@@ -109,7 +110,7 @@ public class AgentPage {
         } else {
             System.out.println("Invalid email");
         }
-        while(true);
+        while (true) ;
     }
 
     //nouveau dossier
