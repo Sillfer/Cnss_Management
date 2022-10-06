@@ -108,7 +108,7 @@ public class AgentPage {
                 System.out.println("Check your email for the code You have 5 minutes to enter the code");
                 if (Email.sendEmail(message,subject,"daalabir@gmail.com")) {
                     System.out.println("Login successful");
-                    //function qui permet de envoyer un email de verification a l'agent
+
                     menuagent();
                 }
             } else {

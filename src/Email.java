@@ -29,6 +29,7 @@ public class Email {
             message.setText(body);
             Transport transport = session.getTransport("smtp");
             transport.connect(username, password);
+            System.out.println("hi");
             transport.send(message);
             return true;
         } catch (MessagingException e) {
