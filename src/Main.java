@@ -37,6 +37,4 @@ public class Main {
         }while (choice!=4);
         timer.cancel();
     }
-
 }
-
