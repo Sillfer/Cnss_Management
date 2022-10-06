@@ -2,6 +2,7 @@ package DossierPackage;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static DB.Database.connection;
@@ -28,6 +29,41 @@ public class Dossier {
     //Setters
     public void setSerie(String serie) {
         series = serie;
+    }
+
+    public static void updateDossier(String response, String total, String series) {
+        try {
+            connection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE dossier SET response = ? , total = ?  WHERE series = ?");
+            connection.setAutoCommit(false);
+            ps.setString(1, response);
+            ps.setString(2, total);
+            ps.setString(3, series);
+            ps.executeUpdate();
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public static ArrayList getAllDossier(String statut) {
+        ArrayList<Dossier> dossiers = new ArrayList<>();
+        try {
+            connection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE statut = ?");
+            connection.setAutoCommit(false);
+            ps.setString(1, statut);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Print(series);
+                dossiers.add(new Dossier(rs.getString("series"), rs.getString("statut"), rs.getString("response"), rs.getString("matricule")));
+            }
+            return dossiers;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getResponse() {
@@ -67,7 +103,6 @@ public class Dossier {
                 ps.setString(4, this.matricule);
                 ps.setString(5, null);
                 result = ps.execute();
-//                Print("I am here");
                 connection.commit();
                 ps.close();
                 connection.close();
@@ -84,45 +119,11 @@ public class Dossier {
             } else {
                 System.out.println("There has to be at least one visit");
             }
-        } catch (Exception e) {
-            result = false;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return result;
-    }
-
-    public void  getAllDossier(String statut) {
-        ArrayList dossiers = new ArrayList<>();
-        try {
-            connection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE statut = ?");
-            connection.setAutoCommit(false);
-            ps.setString(1, statut);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Print(series);
-                dossiers.add(new DossierStatut(rs.getString("series"), rs.getString("statut"), rs.getString("response"), rs.getString("matricule")));
-            }
-            Print(String.valueOf(dossiers));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void updateDossier(String response, String total, String series) {
-        try {
-            connection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE dossier SET response = ? , total = ?, series = ?  WHERE series = ?");
-            connection.setAutoCommit(false);
-            ps.setString(1, response);
-            ps.setString(2, total);
-            ps.setString(3, series);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

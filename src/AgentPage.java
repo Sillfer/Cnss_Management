@@ -1,12 +1,15 @@
 import DB.Database;
-import static Helpers.GlobalHelpers.*;
+import DossierPackage.Dossier;
 import Helpers.ConsoleForeground;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static DB.Database.resultSet;
 import static DB.Database.statement;
+import static Helpers.GlobalHelpers.Print;
 
 public class AgentPage {
     private final static Scanner scan = new Scanner(System.in);
@@ -40,6 +43,35 @@ public class AgentPage {
         }
         while (true);
     }
+
+    //nouveau dossier
+    public static void newDossier() throws SQLException {
+        while (true) {
+            Print("Make a choice: ", ConsoleForeground.CYAN);
+            Print("1: Add a Dossier", ConsoleForeground.CYAN);
+            Scanner scannChoice = new Scanner(System.in);
+            int choice = scannChoice.nextInt();
+            switch (choice) {
+                case 1 -> {
+                    DossierPage dossierPage = new DossierPage();
+                    int dossierAdded = dossierPage.addDossier();
+                    if (dossierAdded == 0) {
+                        continue;
+                    } else {
+                        Print("Dossier added successfully", ConsoleForeground.GREEN);
+                        break;
+                    }
+                }
+                default -> {
+                    Print("Invalid choice", ConsoleForeground.RED);
+                    Print("Please try again", ConsoleForeground.RED);
+
+                }
+            }
+
+        }
+    }
+
     //function qui permet de setter toutes les attributes
     public void NewAgent(int id_agent, String first_name, String last_name, String email, String password) {
         this.id_agent = id_agent;
@@ -109,35 +141,20 @@ public class AgentPage {
         } else {
             System.out.println("Invalid email");
         }
-        while(true);
+        while (true) ;
     }
 
-    //nouveau dossier
-    public static void newDossier() throws SQLException {
-        while (true){
-           Print("Make a choice: ", ConsoleForeground.CYAN);
-           Print("1: Add a Dossier", ConsoleForeground.CYAN);
-           Scanner scannChoice = new Scanner(System.in);
-              int choice = scannChoice.nextInt();
-                switch (choice){
-                    case 1 -> {
-                        DossierPage dossierPage = new DossierPage();
-                        int dossierAdded = dossierPage.addDossier();
-                        if (dossierAdded == 0){
-                            continue;
-                        }else{
-                            Print("Dossier added successfully", ConsoleForeground.GREEN);
-                            break;
-                        }
-                    }
-                    default -> {
-                        Print("Invalid choice", ConsoleForeground.RED);
-                        Print("Please try again", ConsoleForeground.RED);
-
-                    }
-                }
-
-            }
+    public void getAllPendingDossiers(){
+        ArrayList<Dossier> folders;
+        folders = Dossier.getAllDossier("En attente");
+        for (int i = 0; i < folders.size(); i+=3) {
+            Dossier d = folders.get(i);
+            Dossier d1 = folders.get(i);
+            Dossier d2 = folders.get(i);
+            System.out.println((i+1) + "- Dossier code : "+ d.getMatricule() + " | response : "+ d.getResponse() +"\t" +
+                    (i+2) + "- Dossier code : "+ d1.getMatricule() + " | response : "+ d1.getResponse() +"\t"+
+                    (i+3) + "- Dossier code : "+ d2.getMatricule() + " | response : "+ d2.getResponse() +"\t");
         }
     }
+}
 

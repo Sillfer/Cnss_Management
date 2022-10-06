@@ -1,3 +1,4 @@
+import DB.SystemControll;
 import DossierPackage.Dossier;
 import DossierPackage.Medicamment;
 import DossierPackage.Visite;
@@ -17,7 +18,8 @@ public class DossierPage {
     public Boolean AddDossier(String matricule, ArrayList<String> medicaments,ArrayList<String> visites){
         ArrayList<Medicamment> medicamentsList = new ArrayList<>();
         ArrayList<Visite> visitesList = new ArrayList<>();
-        Dossier dossier = new Dossier(genereteMatricule(),"En Attente","En Attente",matricule);
+        String code = genereteMatricule();
+        Dossier dossier = new Dossier(code,"En Attente","En Attente",matricule);
         for (String Visite:visites) {
             Visite visite = new Visite(genereteMatricule(),Visite,dossier.getSerie());
             visitesList.add(visite);
@@ -27,6 +29,11 @@ public class DossierPage {
             medicamentsList.add(medicamment);
         }
         Boolean DossierCreated = dossier.CreateDossier(medicamentsList,visitesList);
+        if (!DossierCreated){
+            Print("Dossier non crée", ConsoleForeground.RED);
+            SystemControll systemControll = new SystemControll();
+            systemControll.checkDossier(code);
+        }
         return DossierCreated;
     }
     public int addDossier(){
