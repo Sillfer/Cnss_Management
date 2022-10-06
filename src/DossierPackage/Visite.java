@@ -41,7 +41,7 @@ public class Visite {
     }
 
 
-    public Boolean AddVisite(){
+    public static Boolean AddVisite(){
         boolean result = true;
         try{
             connection();

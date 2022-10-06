@@ -52,7 +52,7 @@ public class Medicamment {
         this.taux = taux;
     }
 
-    public Boolean AddMedicamment() {
+    public static Boolean AddMedicamment() {
         boolean result = true;
         try {
             connection();

@@ -1,8 +1,5 @@
 import DB.Database;
-import DossierPackage.Dossier;
-import DossierPackage.Visite;
 import static Helpers.GlobalHelpers.*;
-import Helpers.ConsoleBackground;
 import Helpers.ConsoleForeground;
 
 import java.sql.SQLException;
@@ -43,7 +40,6 @@ public class AgentPage {
         }
         while (true);
     }
-
     //function qui permet de setter toutes les attributes
     public void NewAgent(int id_agent, String first_name, String last_name, String email, String password) {
         this.id_agent = id_agent;
@@ -118,27 +114,27 @@ public class AgentPage {
 
     //nouveau dossier
     public static void newDossier() throws SQLException {
-        while (true){
-           Print("Make a choice: ", ConsoleForeground.CYAN);
-           Print("1: Add a Dossier", ConsoleForeground.CYAN);
-           Scanner scannChoice = new Scanner(System.in);
-              int choice = scannChoice.nextInt();
-                switch (choice){
-                    case 1 -> {
-                        DossierPage dossierPage = new DossierPage();
-                        int dossierAdded = dossierPage.addDossier();
-                        if (dossierAdded == 0){
-                            continue;
-                        }else{
-                            Print("Dossier added successfully", ConsoleForeground.GREEN);
-                            continue;
-                        }
-                    }
-                    default -> {
-                        Print("Invalid choice", ConsoleForeground.RED);
-                        Print("Please try again", ConsoleForeground.RED);
+        while (true) {
+            Print("Make a choice: ", ConsoleForeground.CYAN);
+            Print("1: Add a Dossier", ConsoleForeground.CYAN);
+            Scanner scannChoice = new Scanner(System.in);
+            int choice = scannChoice.nextInt();
+            switch (choice) {
+                case 1 -> {
+                    DossierPage dossierPage = new DossierPage();
+                    int dossierAdded = dossierPage.addDossier();
+                    if (dossierAdded == 0) {
+                        continue;
+                    } else {
+                        Print("Dossier added successfully", ConsoleForeground.GREEN);
+                        continue;
                     }
                 }
+                default -> {
+                    Print("Invalid choice", ConsoleForeground.RED);
+                    Print("Please try again", ConsoleForeground.RED);
+                }
+            }
         }
     }
 }
