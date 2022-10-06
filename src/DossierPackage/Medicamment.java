@@ -7,15 +7,10 @@ import static Helpers.GlobalHelpers.Print;
 
 public class Medicamment {
     //Declaration des attributes
-<<<<<<< Updated upstream
     private String medicament_id;
     private String code_dossier;
-=======
-    private static String medicament_id;
-    private static String code_dossier;
     private String name;
     private Double taux;
->>>>>>> Stashed changes
 
     ////function qui permet de setter toutes les attributes
     public Medicamment(String medicament_id, String code_dossier) {

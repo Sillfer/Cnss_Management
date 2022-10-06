@@ -147,9 +147,4 @@ public class AgentPage {
 
             }
         }
-    }
-
-<<<<<<< Updated upstream
-=======
 }
->>>>>>> Stashed changes

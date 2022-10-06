@@ -27,7 +27,9 @@ public class Email {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject);
             message.setText(body);
-            Transport.send(message);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(username, password);
+            transport.send(message);
             return true;
         } catch (MessagingException e) {
             e.printStackTrace();
