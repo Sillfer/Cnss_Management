@@ -17,7 +17,6 @@ public class PatientPage {
             resultSet = statement.executeQuery("SELECT matricule FROM patient WHERE matricule = '" + matricule + "'");
             if (resultSet.next()) {
                 if (resultSet.getString("matricule").equals(matricule)) {
-                    System.out.println("Welcome " + resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
                     System.out.println("Welcome to your profile");
                     menupatient();
                 }
@@ -44,6 +43,21 @@ public class PatientPage {
     }
 
     public static void VoirHistorique() throws SQLException {
-        System.out.println("Historique de dossier");
+        Database.connection();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your Matricule : ");
+        String matricule = scanner.nextLine();
+        resultSet = statement.executeQuery("SELECT matricule,series,statut,total FROM dossier WHERE matricule = '" + matricule + "'");
+        if (resultSet.next()){
+            if (resultSet.getString("matricule").equals(matricule)){
+                System.out.println("Les informations de votre dossier est : ");
+                System.out.println("matricule : " + resultSet.getString("matricule"));
+                System.out.println("series : " + resultSet.getString("series"));
+                System.out.println("statuts : " + resultSet.getString("statut"));
+                System.out.println("totale : " + resultSet.getString("total"));
+            } else {
+                System.out.println("Matricule incorrect");
+            }
+        }
     }
 }

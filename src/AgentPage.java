@@ -94,6 +94,8 @@ public class AgentPage {
 
     //function qui permet login de l'agent
     public void loginAgent() throws SQLException {
+        String message = "Your matricule is : "+genereteMatricule();
+        String subject = "Verification code";
         Database.connection();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your email: ");
@@ -103,7 +105,12 @@ public class AgentPage {
         resultSet = statement.executeQuery("SELECT email,password FROM agent WHERE email = '" + email + "'");
         if (resultSet.next()) {
             if (resultSet.getString("password").equals(password)) {
-                menuagent();
+                System.out.println("Check your email for the code You have 5 minutes to enter the code");
+                if (Email.sendEmail(message,subject,"daalabir@gmail.com")) {
+                    System.out.println("Login successful");
+                    //function qui permet de envoyer un email de verification a l'agent
+                    menuagent();
+                }
             } else {
                 System.out.println("Invalid password");
             }
@@ -140,5 +147,4 @@ public class AgentPage {
 
             }
         }
-    }
-
+}

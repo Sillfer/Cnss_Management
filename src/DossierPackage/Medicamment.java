@@ -9,6 +9,8 @@ public class Medicamment {
     //Declaration des attributes
     private String medicament_id;
     private String code_dossier;
+    private String name;
+    private Double taux;
 
     ////function qui permet de setter toutes les attributes
     public Medicamment(String medicament_id, String code_dossier) {
