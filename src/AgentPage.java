@@ -1,8 +1,5 @@
 import DB.Database;
-import DossierPackage.Dossier;
-import DossierPackage.Visite;
 import static Helpers.GlobalHelpers.*;
-import Helpers.ConsoleBackground;
 import Helpers.ConsoleForeground;
 
 import java.sql.SQLException;
@@ -43,7 +40,6 @@ public class AgentPage {
         }
         while (true);
     }
-
     //function qui permet de setter toutes les attributes
     public void NewAgent(int id_agent, String first_name, String last_name, String email, String password) {
         this.id_agent = id_agent;
@@ -137,8 +133,11 @@ public class AgentPage {
                     default -> {
                         Print("Invalid choice", ConsoleForeground.RED);
                         Print("Please try again", ConsoleForeground.RED);
+
                     }
                 }
+
+            }
         }
     }
-}
+

@@ -36,6 +36,7 @@ public class Medicamment {
     //Setters
 
     public Boolean AddMedicamment() {
+
         boolean result = true;
         try {
             connection();

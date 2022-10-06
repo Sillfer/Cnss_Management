@@ -7,9 +7,9 @@ import static Helpers.GlobalHelpers.Print;
 
 public class Visite {
     //Declaration des attributes
-    private String visit_id;
-    private String medecinType;
-    private String code_dossier;
+    private static String visit_id;
+    private static String medecinType;
+    private static String code_dossier;
 
     ////function qui permet de setter toutes les attributes
     public Visite (String visit_id, String medecinType, String code_dossier) {
@@ -42,7 +42,7 @@ public class Visite {
     }
 
 
-    public Boolean AddVisite(){
+    public static Boolean AddVisite(){
         boolean result = true;
         try{
             connection();
