@@ -1,6 +1,9 @@
 import DB.Database;
 import DossierPackage.Dossier;
 import DossierPackage.Visite;
+import static Helpers.GlobalHelpers.*;
+import Helpers.ConsoleBackground;
+import Helpers.ConsoleForeground;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -19,17 +22,19 @@ public class AgentPage {
 
     //menu de l'agent
     public static void menuagent() throws SQLException {
-        int chose;
+        int choice;
         do {
-            System.out.println("<1> - Ajouter un dossier");
-            System.out.println("<2> - retour au menu principal");
-            System.out.println("<3> - pour quitter l'application");
-            System.out.print("Choisir svp : ");
-            chose = scan.nextInt();
-            switch (chose) {
+            Print("<1> - Ajouter un dossier");
+            Print("<2> - Gerer un dossier");
+            Print("<3> - retour au menu principal");
+            Print("<4> - pour quitter l'application");
+            Print("Choisir svp : ");
+            choice = scan.nextInt();
+            switch (choice) {
                 case 1 -> newDossier();
-                case 2 -> Main.menu();
-                case 3 -> {
+//                case 2 ->
+                case 3 -> Main.menu();
+                case 4 -> {
                     System.out.println("A bientôt !!");
                     System.exit(0);
                 }
@@ -113,21 +118,27 @@ public class AgentPage {
 
     //nouveau dossier
     public static void newDossier() throws SQLException {
-        int chose;
-        do {
-
-            System.out.println("<1> - Ajouter un visite");
-            System.out.println("<2> - Ajouter un medicamment");
-            System.out.println("<3> - Valider le dossier");
-            System.out.println("<4> - retour au menu principal");
-            System.out.print("Choisir svp : ");
-            chose = scan.nextInt();
-            switch (chose) {
-//                case 1 ->
-                case 5 -> menuagent();
-                default -> System.out.println("plz choisir une autre fois");
-            }
+        while (true){
+           Print("Make a choice: ", ConsoleForeground.CYAN);
+           Print("1: Add a Dossier", ConsoleForeground.CYAN);
+           Scanner scannChoice = new Scanner(System.in);
+              int choice = scannChoice.nextInt();
+                switch (choice){
+                    case 1 -> {
+                        DossierPage dossierPage = new DossierPage();
+                        int dossierAdded = dossierPage.addDossier();
+                        if (dossierAdded == 0){
+                            continue;
+                        }else{
+                            Print("Dossier added successfully", ConsoleForeground.GREEN);
+                            continue;
+                        }
+                    }
+                    default -> {
+                        Print("Invalid choice", ConsoleForeground.RED);
+                        Print("Please try again", ConsoleForeground.RED);
+                    }
+                }
         }
-        while (true);
     }
 }
