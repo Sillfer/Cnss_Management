@@ -17,5 +17,13 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" name="imap" level="project" />
+    <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="dsn" level="project" />
+    <orderEntry type="library" name="gimap" level="project" />
+    <orderEntry type="library" name="mailapi" level="project" />
+    <orderEntry type="library" name="pop3" level="project" />
+    <orderEntry type="library" name="smtp" level="project" />
+    <orderEntry type="library" name="activation-1.1.1" level="project" />
   </component>
 </module>
