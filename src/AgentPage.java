@@ -1,18 +1,18 @@
-import DB.Database;
+
 import DossierPackage.Dossier;
 import Helpers.ConsoleForeground;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static DB.Database.resultSet;
-import static DB.Database.statement;
 import static Helpers.GlobalHelpers.Print;
-import static Helpers.GlobalHelpers.genereteMatricule;
-
+import java.time.LocalTime;
 public class AgentPage {
+    private static int tryCount = 0;
+    private static int tryCountVerifyCode = 0;
+    private final static String TABLE = "agent";
+    public static boolean isLogin = false;
     private final static Scanner scan = new Scanner(System.in);
     //Declaration des properties
     private int id_agent;
@@ -37,6 +37,7 @@ public class AgentPage {
                     AgentPage dossier = new AgentPage();
                     dossier.getAllDossiers();
                 }
+
                 case 3 -> Main.menu();
                 case 4 -> {
                     System.out.println("A bientôt !!");
@@ -46,34 +47,6 @@ public class AgentPage {
             }
         }
         while (true);
-    }
-
-    //nouveau dossier
-    public static void newDossier() throws SQLException {
-        while (true) {
-            Print("Make a choice: ", ConsoleForeground.CYAN);
-            Print("1: Add a Dossier", ConsoleForeground.CYAN);
-            Scanner scannChoice = new Scanner(System.in);
-            int choice = scannChoice.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    DossierPage dossierPage = new DossierPage();
-                    int dossierAdded = dossierPage.addDossier();
-                    if (dossierAdded == 0) {
-                        continue;
-                    } else {
-                        Print("Dossier added successfully", ConsoleForeground.GREEN);
-                        break;
-                    }
-                }
-                default -> {
-                    Print("Invalid choice", ConsoleForeground.RED);
-                    Print("Please try again", ConsoleForeground.RED);
-
-                }
-            }
-
-        }
     }
 
     //function qui permet de setter toutes les attributes
@@ -128,31 +101,90 @@ public class AgentPage {
     }
 
     //function qui permet login de l'agent
-    public void loginAgent() throws SQLException {
-        String message = "Your matricule is : "+genereteMatricule();
-        String subject = "Verification code";
-        Database.connection();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter your password: ");
-        String password = scanner.nextLine();
-        resultSet = statement.executeQuery(" SELECT email,password FROM agent WHERE email = '" + email + "'");
-        if (resultSet.next()) {
-            if (resultSet.getString("password").equals(password)) {
-                System.out.println("Check your email for the code You have 5 minutes to enter the code");
-                if (Email.sendEmail(message,subject,"daalabir@gmail.com")) {
-                    System.out.println("Login successful");
-                    //function qui permet de envoyer un email de verification a l'agent
-                    menuagent();
+    public static void loginAgent() throws SQLException {
+        if (tryCount < 3) {
+            try {
+                Boolean resultSet = Authentification.isAuthentificated(TABLE);
+
+                if (Authentification.islogin) {
+                    //String Email = Authentification.getInformation(resultSet,"Email");
+                    System.out.println("Welcome to the system");
+                    System.out.println("Your Email is: "+Authentification.Email);
+                    String code = generateCode();
+                    String message = "Your code is: "+code;
+                    String subject = "Verification code";
+                    System.out.println("Check your email for the code You have 5 minutes to enter the code");
+                    if (Email.sendMail(message,subject,"daalabir@gmail.com")) {
+                        Boolean isCodeValid = verifyCode(code);
+                        Boolean isNotExpired = checkCodeExpiration(LocalTime.now());
+                        if (isNotExpired) {
+                            while (tryCountVerifyCode < 2) {
+                                if (isCodeValid) {
+                                    System.out.println("Code is valid");
+                                    isLogin = true;
+                                    menuagent();
+                                    break;
+                                } else {
+                                    System.out.println("Code is not valid");
+                                    tryCountVerifyCode++;
+                                    isCodeValid = verifyCode(code);
+                                }
+                            }
+                            if (tryCountVerifyCode == 2) {
+                                wait30Seconds();
+                            }
+
+                        }
+                        else {
+                            System.out.println("Code expired");
+                            System.out.println("Do you want to resend the code? (y/n)");
+                            Scanner scanner = new Scanner(System.in);
+                            String choice = scanner.nextLine();
+                            if (choice.equals("y")) loginAgent();
+                            else {
+                                System.out.println("Goodbye");
+                                System.exit(0);
+                            }
+                        }
+
+                    } else System.out.println("Error sending email");
+
+                } else {
+                    System.out.println("Login failed");
+                    tryCount++;
+                    loginAgent();
                 }
-            } else {
-                System.out.println("Invalid password");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } else {
-            System.out.println("Invalid email");
+            System.out.println("You have exceeded the number of attempts");
+            wait30Seconds();
+
         }
-        while (true) ;
+        //String message = "Your matricule is : "+genereteMatricule();
+        //String subject = "Verification code";
+        //Database.connection();
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.println("Enter your email: ");
+        //String email = scanner.nextLine();
+        //System.out.println("Enter your password: ");
+        //String password = scanner.nextLine();
+        //resultSet = statement.executeQuery("SELECT email,password FROM agent WHERE email = '" + email + "'");
+        //if (resultSet.next()) {
+            //if (resultSet.getString("password").equals(password)) {
+                //System.out.println("Check your email for the code You have 5 minutes to enter the code");
+                //if (Email.sendMail(message,subject,"daalabir@gmail.com")) {
+                    //System.out.println("Login successful");
+                    //menuagent();
+                //}
+            //} else {
+                //System.out.println("Invalid password");
+            //}
+        //} else {
+            //System.out.println("Invalid email");
+        //}
+        //while (true) ;
     }
 
 
@@ -171,6 +203,79 @@ public class AgentPage {
                     (i+2) + "- Dossier code : "+ d1.getMatricule() + " | response : "+ d1.getResponse() +"\t"+
                     (i+3) + "- Dossier code : "+ d2.getMatricule() + " | response : "+ d2.getResponse() +"\t");
         }
+    }
+    //nouveau dossier
+    public static void newDossier() throws SQLException {
+        while (true){
+           Print("Make a choice: ", ConsoleForeground.CYAN);
+           Print("1: Add a Dossier", ConsoleForeground.CYAN);
+           Scanner scannChoice = new Scanner(System.in);
+              int choice = scannChoice.nextInt();
+                switch (choice){
+                    case 1 -> {
+                        DossierPage dossierPage = new DossierPage();
+                        int dossierAdded = dossierPage.addDossier();
+                        if (dossierAdded == 0){
+                            continue;
+                        }else{
+                            Print("Dossier added successfully", ConsoleForeground.GREEN);
+                            break;
+                        }
+                    }
+                    default -> {
+                        Print("Invalid choice", ConsoleForeground.RED);
+                        Print("Please try again", ConsoleForeground.RED);
+
+                    }
+                }
+
+            }
+    }
+
+    // generate random code to send it to the user email to verify his account and expire after 10 minutes
+    public static String generateCode() {
+        String code = "";
+        for (int i = 0; i < 6; i++) {
+            code += (int) (Math.random() * 10);
+        }
+        return code;
+    }
+
+
+    public static boolean verifyCode(String code) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the code: ");
+        String codeInput = scanner.nextLine();
+        //Boolean isNotExpired = checkCodeExpiration(
+        if (codeInput.equals(code)) {
+            return true;
+        }
+        return false;
+    }
+
+    // check if the code is expired or not
+    public static boolean checkCodeExpiration(LocalTime date) {
+        LocalTime now = LocalTime.now();
+        if (now.isBefore(date.plusMinutes(5))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void wait30Seconds(){
+        try {
+            System.out.println("Wait 30 seconds");
+            Thread.sleep(30000);
+            tryCount = 0;
+            tryCountVerifyCode = 0;
+            loginAgent();
+        } catch (InterruptedException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void logout(){
+        isLogin = false;
     }
 }
 
