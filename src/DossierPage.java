@@ -31,9 +31,9 @@ public class DossierPage {
         }
         Boolean DossierCreated = dossier.CreateDossier(medicamentsList,visitesList);
         if (!DossierCreated){
-            Print("Dossier non crée", ConsoleForeground.RED);
+//            Print("Dossier non crée", ConsoleForeground.RED);
             SystemControll systemControll = new SystemControll();
-            systemControll.checkDossier(code);
+            systemControll.checkDossier(code);  //Supprimer le dossier si il n'est pas crée
         }
         return DossierCreated;
     }
@@ -99,7 +99,4 @@ public class DossierPage {
         agentPage.newDossier();
     }
 
-    public static void ValidationDossier(){
-
-    }
 }

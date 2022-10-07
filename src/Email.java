@@ -1,6 +1,11 @@
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import com.mysql.cj.Session;
+
+//import javax.mail.*;
+//import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.MimeMessage;
+//import javax.mail.Session;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.util.Properties;
 
 public class Email {
@@ -15,25 +20,26 @@ public class Email {
         properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
         properties.put("mail.smtp.starttls.enable", "true");
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject(subject);
-            message.setText(body);
-            Transport transport = session.getTransport("smtp");
-            transport.connect(username, password);
-            transport.send(message);
-            return true;
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return false;
-        }
+//        Session session = Session.getInstance(properties, new Authenticator() {
+//            @Override
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication(username, password);
+//            }
+//        });
+//        try {
+//            Message message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(username));
+//            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+//            message.setSubject(subject);
+//            message.setText(body);
+//            Transport transport = session.getTransport("smtp");
+//            transport.connect(username, password);
+//            transport.send(message);
+//            return true;
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+        return true;
     }
 }

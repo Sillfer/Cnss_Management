@@ -31,30 +31,53 @@ public class Dossier {
         series = serie;
     }
 
-    public static void updateDossier(String response, String total, String series) {
+    public static void updateDossier(String response,String statut, String total, String series) {
         try {
             connection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE dossier SET response = ? , total = ?  WHERE series = ?");
-            connection.setAutoCommit(false);
+            PreparedStatement ps = connection.prepareStatement("UPDATE dossier SET response = ? ,statut = ?, total = ?  WHERE series = ?");
+//            connection.setAutoCommit(false);
             ps.setString(1, response);
-            ps.setString(2, total);
-            ps.setString(3, series);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
+            ps.setString(2, statut);
+            ps.setString(3, total);
+            ps.setString(4, series);
+            int rp = ps.executeUpdate();
+            if(rp == 0){
+                Print("An error occured in dossier code " + series + " update");
+                System.exit(0);
+            }
+//            connection.commit();
+//            connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
 
         }
     }
 
-    public static ArrayList getAllDossier(String statut) {
+//    public static ArrayList<Dossier> getAllDossiersStatut(String statut) {
+//        ArrayList<Dossier> dossiers = new ArrayList<>();
+//        try {
+//            connection();
+//            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE statut = ?");
+////            connection.setAutoCommit(false);
+//            ps.setString(1, statut);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Print(series);
+//                dossiers.add(new Dossier(rs.getString("series"), rs.getString("statut"), rs.getString("response"), rs.getString("matricule")));
+//            }
+//            return dossiers;
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//    get all the dossiers by matricule of the client
+    public static ArrayList<Dossier> getAllDossiersByMatricule(String matricule) {
         ArrayList<Dossier> dossiers = new ArrayList<>();
         try {
             connection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE statut = ?");
-            connection.setAutoCommit(false);
-            ps.setString(1, statut);
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM dossier WHERE matricule = ?");
+//            connection.setAutoCommit(false);
+            ps.setString(1, matricule);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Print(series);
@@ -95,7 +118,7 @@ public class Dossier {
         try {
             if (!visites.isEmpty()) {
                 connection();
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO dossier (series, statut, response, matricule,total) VALUES (?,?,?,?,?)");
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO dossier (series, statut, response, matricule ,total) VALUES (?,?,?,?,?)");
                 connection.setAutoCommit(false);
                 ps.setString(1, series);
                 ps.setString(2, this.statut);

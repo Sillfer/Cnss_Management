@@ -33,7 +33,10 @@ public class AgentPage {
             choice = scan.nextInt();
             switch (choice) {
                 case 1 -> newDossier();
-//                case 2 ->
+                case 2 ->  {
+                    AgentPage dossier = new AgentPage();
+                    dossier.getAllDossiers();
+                }
                 case 3 -> Main.menu();
                 case 4 -> {
                     System.out.println("A bientôt !!");
@@ -152,9 +155,14 @@ public class AgentPage {
         while (true) ;
     }
 
-    public void getAllPendingDossiers(){
+
+
+    public void getAllDossiers(){
         ArrayList<Dossier> folders;
-        folders = Dossier.getAllDossier("En attente");
+//        scan the matricule entered by the agent and get all the dossiers with the same matricule
+        Print("Enter le matricule du patient : ", ConsoleForeground.CYAN);
+        String matricule = scan.next();
+        folders = Dossier.getAllDossiersByMatricule(matricule);
         for (int i = 0; i < folders.size(); i+=3) {
             Dossier d = folders.get(i);
             Dossier d1 = folders.get(i);
