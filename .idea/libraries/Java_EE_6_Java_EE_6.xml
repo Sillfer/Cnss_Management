@@ -10,7 +10,6 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/Compressed/javamail-1.4.7/mail.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
