@@ -162,29 +162,7 @@ public class AgentPage {
             wait30Seconds();
 
         }
-        //String message = "Your matricule is : "+genereteMatricule();
-        //String subject = "Verification code";
-        //Database.connection();
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Enter your email: ");
-        //String email = scanner.nextLine();
-        //System.out.println("Enter your password: ");
-        //String password = scanner.nextLine();
-        //resultSet = statement.executeQuery("SELECT email,password FROM agent WHERE email = '" + email + "'");
-        //if (resultSet.next()) {
-            //if (resultSet.getString("password").equals(password)) {
-                //System.out.println("Check your email for the code You have 5 minutes to enter the code");
-                //if (Email.sendMail(message,subject,"daalabir@gmail.com")) {
-                    //System.out.println("Login successful");
-                    //menuagent();
-                //}
-            //} else {
-                //System.out.println("Invalid password");
-            //}
-        //} else {
-            //System.out.println("Invalid email");
-        //}
-        //while (true) ;
+
     }
 
 
@@ -209,6 +187,7 @@ public class AgentPage {
         while (true){
            Print("Make a choice: ", ConsoleForeground.CYAN);
            Print("1: Add a Dossier", ConsoleForeground.CYAN);
+              Print("2: Back to the menu", ConsoleForeground.CYAN);
            Scanner scannChoice = new Scanner(System.in);
               int choice = scannChoice.nextInt();
                 switch (choice){
@@ -222,6 +201,7 @@ public class AgentPage {
                             break;
                         }
                     }
+                    case 2 -> menuagent();
                     default -> {
                         Print("Invalid choice", ConsoleForeground.RED);
                         Print("Please try again", ConsoleForeground.RED);

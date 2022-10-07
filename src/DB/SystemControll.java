@@ -32,11 +32,11 @@ public class SystemControll {
 
 
     public void checkDossier(String code) {
-        System.out.println("I am in checkDossier");
+//        System.out.println("I am in checkDossier");
         Double MedicamentTotalPrice = getTotalPriceByTable(code, "medicamment", "scan_medicament", "id_medicamment", "medicament_id");
         Double VisiteTotalPrice = getTotalPriceByTable(code, "visit", "scan_visit", "doc_type", "medecinType");
         Double TotalPrice = MedicamentTotalPrice + VisiteTotalPrice;
-        System.out.println(TotalPrice);//total price
+//        System.out.println(TotalPrice);//total price
         String response = "";
         String statut = "";
         if (TotalPrice > 1) {

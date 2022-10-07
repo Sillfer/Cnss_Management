@@ -22,13 +22,12 @@ public class AdminPage {
             System.out.println("Enter the password: ");
             String password = scanner.nextLine();
 
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO agent (matricule,first_name,last_name,email,password) VALUES (?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO agent (first_name,last_name,email,password) VALUES (?,?,?,?)");
             connection.setAutoCommit(false);
-            ps.setString(1, "A" + randomAlphaNumeric(10));
-            ps.setString(2, first_name);
-            ps.setString(3, last_name);
-            ps.setString(4, email);
-            ps.setString(5, password);
+            ps.setString(1, first_name);
+            ps.setString(2, last_name);
+            ps.setString(3, email);
+            ps.setString(4, password);
             status = ps.execute();
             connection.commit();
             ps.close();

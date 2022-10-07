@@ -77,9 +77,9 @@ public class DossierPage {
                     Boolean result = dossierPage.AddDossier(matriculePatient,medicaments,visites);
                     if (!result){
                         Print("Dossier created successfully", ConsoleForeground.GREEN, ConsoleBackground.BLACK);
-                        Print(matriculePatient);
-                        Print(medicaments.toString());
-                        Print(String.valueOf(visites));
+//                        Print(matriculePatient);
+//                        Print(medicaments.toString());
+//                        Print(String.valueOf(visites));
                     }else{
                         Print("Dossier creation failed", ConsoleForeground.RED, ConsoleBackground.BLACK);
                     }

@@ -48,7 +48,7 @@ public class Medicamment {
             ps.setString(2, this.code_dossier);
             result = ps.execute();
             connection.commit();
-            Print("I am in medicament");
+//            Print("I am in medicament");
             ps.close();
             connection.close();
         } catch (Exception e) {

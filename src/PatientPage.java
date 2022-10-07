@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 import static DB.Database.resultSet;
 import static DB.Database.statement;
+import static Helpers.GlobalHelpers.Print;
+
+import Helpers.ConsoleForeground;
+import Helpers.ConsoleBackground;
+
 
 public class PatientPage {
     private final static Scanner scan = new Scanner(System.in);
@@ -50,11 +55,18 @@ public class PatientPage {
         resultSet = statement.executeQuery("SELECT matricule,series,statut,total FROM dossier WHERE matricule = '" + matricule + "'");
         if (resultSet.next()){
             if (resultSet.getString("matricule").equals(matricule)){
-                System.out.println("Les informations de votre dossier est : ");
-                System.out.println("matricule : " + resultSet.getString("matricule"));
+                System.out.println(" -------- Les informations de votre dossier est : --------\n");
+                Print("Matricule : " + resultSet.getString("matricule"), ConsoleForeground.GREEN, ConsoleBackground.BLACK);
                 System.out.println("series : " + resultSet.getString("series"));
-                System.out.println("statuts : " + resultSet.getString("statut"));
-                System.out.println("totale : " + resultSet.getString("total"));
+                if (resultSet.getString("statut").equals("En cours")){
+                    Print("statuts : " + resultSet.getString("statut"), ConsoleForeground.YELLOW, ConsoleBackground.BLACK);
+                }else if (resultSet.getString("statut").equals("Refuser")) {
+                    Print("statuts : " + resultSet.getString("statut"), ConsoleForeground.RED, ConsoleBackground.BLACK);
+                } else {
+                    Print("statuts : " + resultSet.getString("statut"), ConsoleForeground.GREEN, ConsoleBackground.BLACK);
+                }
+
+                Print("totale : " + resultSet.getString("total"), ConsoleForeground.GREEN, ConsoleBackground.BLACK);
             } else {
                 System.out.println("Matricule incorrect");
             }

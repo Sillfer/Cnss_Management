@@ -25,15 +25,15 @@ public class Main {
             System.out.println("1: Connect as an admin");
             System.out.println("2: Connect as a agent");
             System.out.println("3: Connect as a patient");
-            System.out.println("4: dsdsdsd");
-            System.out.println("5: Quit");
+//            System.out.println("4: dsdsdsd");
+            System.out.println("4: Quit");
             choice = ReadInt("Please choose an option : ");
             switch (choice) {
                 case 1 -> loginAdmin.adminLogin();
                 case 2 -> loginAgent.agentLogin();
                 case 3 -> loginPatient.patientLogin();
-                case 4 -> AgentPage.newDossier();
-                case 5 -> System.out.println("A bientot !");
+//                case 4 -> AgentPage.newDossier();
+                case 4 -> System.out.println("A bientot !");
             }
         } while (choice != 4);
         timer.cancel();

@@ -53,7 +53,7 @@ public class Visite {
             ps.setString(3, code_dossier);
             result = ps.execute();
             connection.commit();
-            Print("I am in visite");
+//            Print("I am in visite");
             ps.close();
             connection.close();
         }
